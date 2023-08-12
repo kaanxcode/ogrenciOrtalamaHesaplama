@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci Bilgileri</title>
+</head>
+<body>
+
+<form onsubmit="handleSubmit(event)">
+    <h1> Öğrenci Bilgileri </h1>
+    <label for="adsoyad">Ad Soyad:</label>  <br>
+    <input type="text" name="adsoyad" id="adsoyad" required> <br>
+    <label for="turkce">Türkçe Notu:</label> <br>
+    <input type="number" name="turkce1" id="turkce1" value="0" >
+    <input type="number" name="turkce2" id="turkce2" value="0">
+    <input type="number" name="turkce3" id="turkce3" value="0"> <br>
+    <label for="mat">Matematik Notu:</label> <br>
+    <input type="number" name="mat1" id="mat1" value="0">
+    <input type="number" name="mat2" id="mat2" value="0">
+    <input type="number" name="mat3" id="mat3" value="0"> <br>
+    <label for="fen">Fen Notu:</label> <br>
+    <input type="number" name="fen1" id="fen1" value="0">
+    <input type="number" name="fen2" id="fen2" value="0">
+    <input type="number" name="fen3" id="fen3" value="0"> <br>
+    <label for="sosyal">Sosyal Notu:</label> <br>
+    <input type="number" name="sosyal1" id="sosyal1" value="0">
+    <input type="number" name="sosyal2" id="sosyal2" value="0">
+    <input type="number" name="sosyal3" id="sosyal3" value="0"> <br>
+    <button type="submit" style="margin-top: 10px;">Hesapla</button>
+</form>
+
+<hr>
+
+<div id="ortalamaBilgileri" ></div>
+
+<script>
+const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+
+    const turkcePuanlari = data.turkce1  + data.turkce2  + data.turkce3 ;
+    const matematikPuanlari = data.mat1  + data.mat2  + data.mat3 ;
+    const fenPuanlari = data.fen1  + data.fen2  + data.fen3 ;
+    const sosyalPuanlari = data.sosyal1  + data.sosyal2  + data.sosyal3 ;
+    
+    const sozelPuan = ((sosyalPuanlari / 3) + (turkcePuanlari / 6)).toFixed(2);
+    const esitAgirlikPuan = ((matematikPuanlari / 3) + (turkcePuanlari / 6)).toFixed(2);
+    const sayisalPuan = ((matematikPuanlari / 3) + (fenPuanlari / 6)).toFixed(2);
+
+    const ogrenciIsmi = document.getElementById("adsoyad").value;
+
+    const ortalamBilgileriDiv = document.getElementById("ortalamaBilgileri");
+    ortalamBilgileriDiv.innerHTML = `
+    <p> ${ogrenciIsmi} adlı öğrencinin not ortalaması</p>
+        <label>Sözel Puanı:</label> <br>
+        <input type="number" name="sozel" id="sozel" value="${sozelPuan}" disabled> <br>
+        <label>Esit Agirlik Puanı:</label> <br>
+        <input type="number" name="esitAgirlik" id="esitAgirlik" value="${esitAgirlikPuan}" disabled> <br>
+        <label>Sayısal Puanı:</label> <br>
+        <input type="number" name="sayisal" id="sayisal" value="${sayisalPuan}" disabled> <br>
+    `;
+
+    ortalamBilgileriDiv.style.display = "block";
+};
+</script>
+</body>
+</html>
